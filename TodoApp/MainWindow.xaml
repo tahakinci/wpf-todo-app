@@ -37,8 +37,8 @@
             <Button Height="30" Width="50" Content="Clear" Margin="5,0,0,0" Click="btnClear_Click"/>
         </StackPanel>
         <StackPanel Grid.Column="2" Grid.Row="1"  VerticalAlignment="Center">
-            <Button Content="=>" Width="30" Height="20" Margin="0,0,0,10"/>
-            <Button Content="&lt;=" Width="30" Height="20"/>
+            <Button Content="=>" Width="30" Height="20" Margin="0,0,0,10" Click="btnPostRight_Click"/>
+            <Button Content="&lt;=" Width="30" Height="20" Click="btnPostLeft_Click"/>
         </StackPanel>
         <StackPanel Grid.Column="4" Grid.Row="1"  VerticalAlignment="Center">
             <Button Content="=>" Width="30" Height="20" Margin="0,0,0,10"/>
@@ -47,21 +47,21 @@
         <Border Grid.Row="1" Grid.Column="1" BorderThickness="2" BorderBrush="blue"  Margin="10">
             <StackPanel >
                 <TextBlock Text="TODO" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Foreground="red" FontWeight="Bold"/>
-                <ListView Grid.Row="1" Name="lvEntries" ItemsSource="{Binding Entries}" SelectedItem="{Binding SelectedItem}" />
+                <ListView Grid.Row="1" Name="todoList" ItemsSource="{Binding Todo}" SelectedItem="{Binding SelectedItem}" />
             </StackPanel>
         </Border>
 
         <Border Grid.Row="1" Grid.Column="3" BorderThickness="2" BorderBrush="red" Margin="10">
             <StackPanel>
                 <TextBlock Text="In Progress" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Foreground="Yellow" FontWeight="Bold"/>
-
+                <ListView  Name="inProgressList" ItemsSource="{Binding InProgress}" SelectedItem="{Binding SelectedItem}"/>
             </StackPanel>
         </Border>
 
         <Border Grid.Row="1" Grid.Column="5" BorderThickness="2" BorderBrush="blue" Margin="10">
             <StackPanel >
                 <TextBlock Text="Done" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Foreground="Green" FontWeight="Bold"/>
-
+                <ListView  Name="doneList" ItemsSource="{Binding Done}" SelectedItem="{Binding SelectedItem}"/>
             </StackPanel>
         </Border>
 

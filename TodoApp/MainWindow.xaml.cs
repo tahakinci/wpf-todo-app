@@ -10,41 +10,63 @@ namespace TodoApp
         public MainWindow()
         {
             DataContext = this;
-            entries = new ObservableCollection<object>();   
-            description = new ObservableCollection<string>();   
+            todo = new List<object>();
+            inProgress = new ObservableCollection<object>();
+            done = new ObservableCollection<object>();
             InitializeComponent();
         }
 
-        private ObservableCollection<object> entries;
+        private ObservableCollection<List<object>> data;
 
-        public ObservableCollection<object> Entries
+        public ObservableCollection<List<object>> Data
         {
-            get { return entries; }
-            set { entries = value; }
+            get { return data; }
+            set { data = value; }
         }
 
-        private ObservableCollection<string> description;
 
-        public ObservableCollection<string> Description
+        private ObservableCollection<object> inProgress;
+
+        public ObservableCollection<object> InProgress
         {
-            get { return description; }
-            set { description = value; }
+            get { return inProgress; }
+            set { inProgress = value; }
+        }
+
+        private ObservableCollection<object> done;
+
+        public ObservableCollection<object> Done
+        {
+            get { return done; }
+            set { done = value; }
+        }
+
+
+
+        private List<object> todo;
+
+        public List<object> Todo 
+        {
+            get { return todo; }
+            set { todo = value; }
         }
 
 
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            Description.Add(txtEntriy.Text);
             var container = new StackPanel() { Orientation = Orientation.Horizontal };
-            var txtBox = new TextBox() { Text = (string)description.Last() };
+            var txtBox = new TextBox() { Text = txtEntriy.Text };
             var editBtn = new Button() { Content = "Edit" };
             var deleteBtn = new Button() { Content = "Delete" };
             container.Children.Add(txtBox);
             container.Children.Add(editBtn);
             container.Children.Add(deleteBtn);
             deleteBtn.Click += DeleteBtn_Click;
-            Entries.Add(container);
+            Todo.Add(container);
+            TextBox field = (TextBox)container.Children[0];
+            Todo.Add(field.Text);
+            Data.Add(todo);
             txtEntriy.Clear();
             
 
@@ -61,8 +83,8 @@ namespace TodoApp
                 if (container != null)
                 {
                     TextBox txtBox = (TextBox)container.Children[0];
-                    Description.Remove(txtBox.Text);
-                    Entries.Remove(container);
+                    //data.Remove(txtBox.Text);
+                    Todo.Remove(container);
               
                 }
             }
@@ -70,14 +92,23 @@ namespace TodoApp
         }
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
-            Description.Clear();
-            Entries.Clear();
+            //data.Clear();
+            Todo.Clear();
             
         }
 
-        private void ListViewItem_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void btnPostRight_Click(object sender, RoutedEventArgs e)
         {
+            var selectedItem = todoList.SelectedItem;
+            todo.Remove(selectedItem);
+            inProgress.Add(selectedItem);
+        }
 
+        private void btnPostLeft_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = inProgressList.SelectedItem;
+            inProgress.Remove(selectedItem);
+            todo.Add(selectedItem);
         }
     }
 }
