@@ -41,8 +41,8 @@
             <Button Content="&lt;=" Width="30" Height="20" Click="btnPostLeft_Click"/>
         </StackPanel>
         <StackPanel Grid.Column="4" Grid.Row="1"  VerticalAlignment="Center">
-            <Button Content="=>" Width="30" Height="20" Margin="0,0,0,10"/>
-            <Button Content="&lt;=" Width="30" Height="20"/>
+            <Button Content="=>" Width="30" Height="20" Margin="0,0,0,10" Click="btnPostRight_Click"/>
+            <Button Content="&lt;=" Width="30" Height="20"  Click="btnPostLeft_Click"/>
         </StackPanel>
         <Border Grid.Row="1" Grid.Column="1" BorderThickness="2" BorderBrush="blue"  Margin="10">
             <StackPanel >

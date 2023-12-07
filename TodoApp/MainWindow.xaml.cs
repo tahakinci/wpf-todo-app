@@ -4,25 +4,42 @@ using System.Windows.Controls;
 
 namespace TodoApp
 {
+    public class TodoData
+    {
+
+        public StackPanel Container { get; set; }
+        public string Status { get; set; }
+        public int Id { get; set; }    
+        public TodoData(StackPanel container, string status, int id)
+        {
+            this.Container = container;
+            this.Status = status;
+            this.Id = id;
+        }
+    }
 
     public partial class MainWindow : Window
-    {
+    {   
         public MainWindow()
         {
             DataContext = this;
-            todo = new List<object>();
+            todo = new ObservableCollection<object>();
             inProgress = new ObservableCollection<object>();
             done = new ObservableCollection<object>();
+            data = new List<TodoData>();
             InitializeComponent();
         }
 
-        private ObservableCollection<List<object>> data;
+        int id = 0;
 
-        public ObservableCollection<List<object>> Data
+        private List<TodoData> data;
+
+        public List<TodoData> Data
         {
             get { return data; }
             set { data = value; }
         }
+
 
 
         private ObservableCollection<object> inProgress;
@@ -43,9 +60,9 @@ namespace TodoApp
 
 
 
-        private List<object> todo;
+        private ObservableCollection<object> todo;
 
-        public List<object> Todo 
+        public ObservableCollection<object> Todo 
         {
             get { return todo; }
             set { todo = value; }
@@ -55,7 +72,7 @@ namespace TodoApp
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            var container = new StackPanel() { Orientation = Orientation.Horizontal };
+            var container = new StackPanel() { Orientation = Orientation.Horizontal, Name=$"container{id}"};
             var txtBox = new TextBox() { Text = txtEntriy.Text };
             var editBtn = new Button() { Content = "Edit" };
             var deleteBtn = new Button() { Content = "Delete" };
@@ -63,12 +80,11 @@ namespace TodoApp
             container.Children.Add(editBtn);
             container.Children.Add(deleteBtn);
             deleteBtn.Click += DeleteBtn_Click;
-            Todo.Add(container);
             TextBox field = (TextBox)container.Children[0];
-            Todo.Add(field.Text);
-            Data.Add(todo);
+            TodoData todoItem = new TodoData(container, "Todo", id++);
+            data.Add(todoItem);
+            Todo.Add(todoItem.Container);
             txtEntriy.Clear();
-            
 
 
         }
@@ -82,10 +98,27 @@ namespace TodoApp
                 var container = button.Parent as StackPanel;
                 if (container != null)
                 {
-                    TextBox txtBox = (TextBox)container.Children[0];
-                    //data.Remove(txtBox.Text);
-                    Todo.Remove(container);
-              
+                var item = data.FirstOrDefault(x => x.Container.Name == container.Name);
+
+                    if (item != null)
+                    {
+                        data.Remove(item);
+
+                        switch (item.Status)
+                        {
+                            case "Todo":
+                                Todo.Remove(item);
+                                break;
+                            case "InProgress":
+                                InProgress.Remove(item);
+                                break;
+                            case "Done":
+                                Done.Remove(item);
+                                break;
+                            
+                        }
+
+                    }
                 }
             }
 
@@ -97,18 +130,45 @@ namespace TodoApp
             
         }
 
+        private void MoveItem(StackPanel selectedItem, ObservableCollection<object> sourceList, ObservableCollection<object> destinationList, string newStatus)
+        {
+            var item = data.FirstOrDefault(x => x.Container.Name == selectedItem.Name);
+
+            sourceList.Remove(selectedItem);
+            destinationList.Add(selectedItem);
+
+            foreach (var todoItem in data.Where(x => x.Container.Name == item.Container.Name))
+            {
+                todoItem.Status = newStatus;
+            }
+        }
+
         private void btnPostRight_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = todoList.SelectedItem;
-            todo.Remove(selectedItem);
-            inProgress.Add(selectedItem);
+            if (todoList.SelectedItem != null)
+            {
+                MoveItem((StackPanel)todoList.SelectedItem, Todo, InProgress, "InProgress");
+            }
+            else if (inProgressList.SelectedItem != null)
+            {
+                MoveItem((StackPanel)inProgressList.SelectedItem, InProgress, Done, "Done");
+            }
+
         }
+
+
 
         private void btnPostLeft_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = inProgressList.SelectedItem;
-            inProgress.Remove(selectedItem);
-            todo.Add(selectedItem);
+            if (inProgressList.SelectedItem != null)
+            {
+                MoveItem((StackPanel)inProgressList.SelectedItem, InProgress, Todo, "Todo");
+            }
+            else if (doneList.SelectedItem != null)
+            {
+                MoveItem((StackPanel)doneList.SelectedItem, Done, InProgress, "InProgress");
+            }
+
         }
     }
 }
