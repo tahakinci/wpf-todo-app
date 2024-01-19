@@ -9,7 +9,7 @@
     Width="800"
     Height="450"
     mc:Ignorable="d">
-    <Grid>
+    <Grid x:Name="container">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
@@ -32,8 +32,5 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-
-
-        <cntrl:BoxUserControl />
     </Grid>
 </Window>

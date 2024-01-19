@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace MemoryGame.Model
 {
-    internal class BoxModel
+    public class BoxModel
     {
+        public int OriginalValue { get; set; }
+        public int UserInput { get; set; }
+
+        public BoxModel(int originalValue, int userInput) 
+        {
+            OriginalValue = originalValue;
+            UserInput = userInput;
+        }
     }
 }
