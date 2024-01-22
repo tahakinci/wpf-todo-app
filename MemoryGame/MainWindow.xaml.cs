@@ -1,15 +1,8 @@
 ﻿using MemoryGame.Model;
 using MemoryGame.View;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MemoryGame
 {
@@ -31,18 +24,18 @@ namespace MemoryGame
             Guesses = new List<bool>();
             Clicks = 1;
             Level = 4;
-            deneme();
+            SetBoxes();
            
         }
-        private void deneme()
+        private void SetBoxes()
         {
             for (int i = 1; i <= Level; i++)
             {
             Generate:
                 var myList = GenerateRandomList();
                 BoxElement = new BoxUserControl();
-                bool deneme = LocationList.Any(l => l.SequenceEqual(myList));
-                if (!deneme)
+                bool isOccupated = LocationList.Any(l => l.SequenceEqual(myList));
+                if (!isOccupated)
                 {
                     container.Children.Add(BoxElement);
                     BoxElement.BoxInfo = new BoxModel(i, myList, i);
