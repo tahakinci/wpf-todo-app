@@ -5,11 +5,12 @@
     xmlns:cntrl="clr-namespace:MemoryGame.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="MainPage"
     Title="MainWindow"
     Width="800"
     Height="450"
     mc:Ignorable="d">
-    <Grid x:Name="container">
+    <Grid x:Name="container" MouseLeftButtonDown="container_MouseLeftButtonDown">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
@@ -32,5 +33,6 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
+
     </Grid>
 </Window>

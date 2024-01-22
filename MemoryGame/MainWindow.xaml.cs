@@ -18,28 +18,38 @@ namespace MemoryGame
     /// </summary>
     public partial class MainWindow : Window
     {
-        private BoxUserControl Box;
+        private BoxUserControl BoxElement;
+        public BoxModel Box { get; set; }
+        public int Level { get; set; }
         public List<List<int>> LocationList { get; set; }
+        public int Clicks { get; set; }
+        public List<bool> Guesses { get; set; }
         public MainWindow()
         {
             InitializeComponent();
             LocationList = new List<List<int>>();
+            Guesses = new List<bool>();
+            Level = 5;
             deneme();
            
         }
         private void deneme()
         {
-            for (int i = 0; i < 10; i++) 
+            for (int i = 0; i < Level; i++)
             {
-                Generate:
+            Generate:
                 var myList = GenerateRandomList();
-                Box = new BoxUserControl();
-                container.Children.Add(Box);
+                BoxElement = new BoxUserControl();
                 bool deneme = LocationList.Any(l => l.SequenceEqual(myList));
-                if (!deneme) LocationList.Add(myList);
+                if (!deneme)
+                {
+                    container.Children.Add(BoxElement);
+                    BoxElement.BoxInfo = new BoxModel(i, myList, i);
+                    LocationList.Add(myList);
+                }
                 else goto Generate;
-                Grid.SetColumn(Box, myList[0]);
-                Grid.SetRow(Box, myList[1]);
+                Grid.SetColumn(BoxElement, myList[0]);
+                Grid.SetRow(BoxElement, myList[1]);
             }
         }
         private List<int> GenerateRandomList()
@@ -48,5 +58,31 @@ namespace MemoryGame
             int Row = new Random().Next(0, 6);
             return new List<int>() {Column, Row};
         }
+        private void GameOver(bool isFailed)
+        {
+            if(isFailed)
+            {
+                 MessageBox.Show("You Lose");
+                return;
+
+            }
+            MessageBox.Show("You Win");
+
+        }
+
+        private void container_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var value = ((BoxUserControl)e.Source).BoxInfo.OriginalValue == Clicks;
+            Guesses.Add(value);
+            Clicks++;
+            if(Clicks == Level) 
+            {
+                var result = Guesses.Any(r => r == false);
+                GameOver(result);
+
+            }
+
+        }
+
     }
 }
