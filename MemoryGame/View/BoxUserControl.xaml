@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:MemoryGame.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Loaded="UserControl_Loaded"
+    MouseLeftButtonUp="UserControl_MouseLeftButtonUp"
     mc:Ignorable="d">
     <StackPanel
         Height="Auto"
@@ -18,7 +19,8 @@
             Background="Transparent"
             BorderBrush="Transparent"
             FontSize="24"
-            Text="{Binding Value}" />
+            Text="{Binding Value}"
+            Visibility="{Binding isVisible, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
     </StackPanel>
 
 </UserControl>

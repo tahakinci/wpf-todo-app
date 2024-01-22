@@ -29,13 +29,14 @@ namespace MemoryGame
             InitializeComponent();
             LocationList = new List<List<int>>();
             Guesses = new List<bool>();
-            Level = 5;
+            Clicks = 1;
+            Level = 4;
             deneme();
            
         }
         private void deneme()
         {
-            for (int i = 0; i < Level; i++)
+            for (int i = 1; i <= Level; i++)
             {
             Generate:
                 var myList = GenerateRandomList();
@@ -62,7 +63,9 @@ namespace MemoryGame
         {
             if(isFailed)
             {
-                 MessageBox.Show("You Lose");
+                 var gameOverDialog = new GameOverDialog();
+                gameOverDialog.Owner = this;
+                gameOverDialog.Show();
                 return;
 
             }
@@ -74,14 +77,13 @@ namespace MemoryGame
         {
             var value = ((BoxUserControl)e.Source).BoxInfo.OriginalValue == Clicks;
             Guesses.Add(value);
-            Clicks++;
             if(Clicks == Level) 
             {
                 var result = Guesses.Any(r => r == false);
                 GameOver(result);
 
             }
-
+            Clicks++;
         }
 
     }

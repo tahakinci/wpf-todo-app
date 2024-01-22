@@ -1,19 +1,7 @@
 ﻿using MemoryGame.Model;
-using MemoryGame.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MemoryGame.View
 {
@@ -23,10 +11,22 @@ namespace MemoryGame.View
     public partial class BoxUserControl : UserControl
     {
 
+        public Visibility isVisible
+        {
+            get { return (Visibility)GetValue(isVisibleProperty); }
+            set { SetValue(isVisibleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for isVisible.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty isVisibleProperty =
+            DependencyProperty.Register("isVisible", typeof(Visibility), typeof(BoxUserControl), new PropertyMetadata(default));
+
+
+
 
         public BoxModel BoxInfo { get; set; }
 
-
+        
         public int Value
         {
             get { return (int)GetValue(ValueProperty); }
@@ -44,12 +44,25 @@ namespace MemoryGame.View
         {
             InitializeComponent();
             DataContext = this;
+            isVisible = Visibility.Visible;
+        }
+        private async void Starter ()
+        {
+            await Task.Delay(5000);
+            isVisible = Visibility.Hidden;
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private  void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             Value = BoxInfo.OriginalValue;
+            Starter();
+        }
 
+        private void UserControl_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var userControl = sender as BoxUserControl;
+            if(userControl != null)
+            ((StackPanel)userControl.Content).Background = new SolidColorBrush(Colors.Blue);
         }
     }
 }
