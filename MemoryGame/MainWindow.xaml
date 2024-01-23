@@ -33,7 +33,29 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
-
+        <Grid Grid.ColumnSpan="11">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="Lorem Ipsum Dolor" />
+            <TextBlock
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="Memory Game" />
+            <TextBlock
+                Grid.Column="2"
+                Width="100"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{Binding LevelText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        </Grid>
     </Grid>
 </Window>

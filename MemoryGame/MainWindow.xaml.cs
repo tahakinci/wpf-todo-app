@@ -13,17 +13,22 @@ namespace MemoryGame
     {
         private BoxUserControl BoxElement;
         public BoxModel Box { get; set; }
+        public SetupModel SetupModel { get; set; }
+        public string Diffuculty { get; set; }
         public int Level { get; set; }
+        public string LevelText { get; set; }
         public List<List<int>> LocationList { get; set; }
         public int Clicks { get; set; }
         public List<bool> Guesses { get; set; }
-        public MainWindow()
+        public MainWindow(SetupModel setupModel)
         {
             InitializeComponent();
             LocationList = new List<List<int>>();
             Guesses = new List<bool>();
             Clicks = 1;
-            Level = 4;
+            Level = setupModel.Level;
+            Diffuculty = setupModel.Difficulty;
+            LevelText = $"Level : {Level}";
             SetBoxes();
            
         }
@@ -33,7 +38,7 @@ namespace MemoryGame
             {
             Generate:
                 var myList = GenerateRandomList();
-                BoxElement = new BoxUserControl();
+                BoxElement = new BoxUserControl(Diffuculty);
                 bool isOccupated = LocationList.Any(l => l.SequenceEqual(myList));
                 if (!isOccupated)
                 {
@@ -49,7 +54,7 @@ namespace MemoryGame
         private List<int> GenerateRandomList()
         {
             int Column = new Random().Next(0, 12);
-            int Row = new Random().Next(0, 6);
+            int Row = new Random().Next(1, 6);
             return new List<int>() {Column, Row};
         }
         private void GameOver(bool isFailed)
@@ -68,6 +73,7 @@ namespace MemoryGame
 
         private void container_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (e.Source.GetType() != typeof(BoxUserControl)) return;
             var value = ((BoxUserControl)e.Source).BoxInfo.OriginalValue == Clicks;
             Guesses.Add(value);
             if(Clicks == Level) 

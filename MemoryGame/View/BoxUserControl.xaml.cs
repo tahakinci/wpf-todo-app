@@ -38,21 +38,24 @@ namespace MemoryGame.View
             DependencyProperty.Register("Value", typeof(int), typeof(BoxUserControl), new PropertyMetadata(default));
 
 
+        public string Diffuculty { get; set; }
 
-
-        public BoxUserControl()
+        public BoxUserControl(string diffuculty)
         {
             InitializeComponent();
             DataContext = this;
+            Diffuculty = diffuculty;
             isVisible = Visibility.Visible;
         }
-        private async void Starter ()
+        private async void Starter()
         {
-            await Task.Delay(5000);
+            if (Diffuculty == "Easy") await Task.Delay(5000);
+            else if (Diffuculty == "Medium") await Task.Delay(3000);
+            else if(Diffuculty == "Hard") await Task.Delay(1000);
             isVisible = Visibility.Hidden;
         }
 
-        private  void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             Value = BoxInfo.OriginalValue;
             Starter();

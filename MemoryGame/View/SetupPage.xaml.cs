@@ -1,28 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MemoryGame.ViewModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MemoryGame.View
 {
-    /// <summary>
-    /// Interaction logic for SetupPage.xaml
-    /// </summary>
-    public partial class SetupPage : Page
+    public partial class SetupPage : Window
     {
         public SetupPage()
         {
             InitializeComponent();
+            VM = new SetupPageViewModel();
+            DataContext = VM;
+            VM.CloseAction = new Action(Close);
         }
+        public SetupPageViewModel VM { get; set; }
     }
 }
