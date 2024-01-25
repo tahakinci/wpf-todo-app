@@ -11,17 +11,12 @@ namespace MemoryGame.Domain
         {
             BoxList = [];
             LocationList = new List<List<int>>(); ;
-            Level = 3;
         }
-        public int Level { get; set; }
+
         public List<List<int>> LocationList { get; set; }
         public List<Box> BoxList { get; set; }
 
-        public void NewGame(int level)
-        {
-            Level = level;
-            SetBoxes(level);
-        }
+
         public void SetBoxes(int level)
         {
             BoxList.Clear();

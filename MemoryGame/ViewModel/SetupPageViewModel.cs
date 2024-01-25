@@ -1,24 +1,30 @@
-﻿using MemoryGame.Model;
+﻿using CommunityToolkit.Mvvm.Input;
+using MemoryGame.Domain;
+using MemoryGame.Model;
 using MemoryGame.ViewModel.Commands;
 using System.ComponentModel;
 using System.Windows.Input;
 
 namespace MemoryGame.ViewModel
 {
-    public class SetupPageViewModel :INotifyPropertyChanged
+    public class SetupPageViewModel 
     {
+        public GameManager GameManager { get; set; }
+
+        //public ICommand StartCommand { get; set; }
         public SetupPageViewModel()
         {
-            Difficulty = "Medium";
+            Difficulty = 2000;
             Level = 1;
-            StartCommand = new StartCommand(this);
+            //StartCommand = new RelayCommand(ExecuteStartCommand);
         }
-        private string diffuculty;
+        private int diffuculty;
 
-        public string Difficulty
+        public int Difficulty
         {
             get { return diffuculty; }
-            set {
+            set
+            {
                 diffuculty = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Difficulty)));
             }
@@ -28,18 +34,22 @@ namespace MemoryGame.ViewModel
         public int Level
         {
             get { return level; }
-            set {
+            set
+            {
                 level = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Level)));
             }
         }
 
-
+        //public void ExecuteStartCommand ()
+        //{
+        //    var gameManager = new 
+        //}
         public event EventHandler? CanExecuteChanged;
         public event PropertyChangedEventHandler? PropertyChanged;
-        public ICommand StartCommand { get; }
+
         public Action CloseAction { get; set; }
     }
 
-  
+
 }
