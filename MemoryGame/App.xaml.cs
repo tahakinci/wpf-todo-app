@@ -1,5 +1,5 @@
 ﻿using MemoryGame.Model;
-using MemoryGame.View;
+using MemoryGame;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;

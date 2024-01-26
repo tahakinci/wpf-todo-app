@@ -1,5 +1,6 @@
-﻿using MemoryGame.Model;
-using MemoryGame.View;
+﻿using MemoryGame.Domain;
+using MemoryGame.Model;
+using MemoryGame.ViewModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -20,7 +21,7 @@ namespace MemoryGame
         //public List<List<int>> LocationList { get; set; }
         //public int Clicks { get; set; }
         //public List<bool> Guesses { get; set; }
-        public MainWindow(SetupModel setupModel)
+        public MainWindow(GameManager gameManager)
         {
             InitializeComponent();
             //LocationList = new List<List<int>>();
@@ -30,8 +31,12 @@ namespace MemoryGame
             //Diffuculty = setupModel.Difficulty;
             //LevelText = $"Level : {Level}";
             //SetBoxes();
-           
+            DataContext = new MainPageViewModel(gameManager);
+
         }
+        public MainPageViewModel VM { get; set; }
+
+
         //private void SetBoxes()
         //{
         //    for (int i = 1; i <= Level; i++)
@@ -71,19 +76,19 @@ namespace MemoryGame
 
         //}
 
-    //    private void container_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    //    {
-    //        if (e.Source.GetType() != typeof(BoxUserControl)) return;
-    //        var value = ((BoxUserControl)e.Source).BoxInfo.OriginalValue == Clicks;
-    //        Guesses.Add(value);
-    //        if(Clicks == Level) 
-    //        {
-    //            var result = Guesses.Any(r => r == false);
-    //            GameOver(result);
+        //    private void container_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //    {
+        //        if (e.Source.GetType() != typeof(BoxUserControl)) return;
+        //        var value = ((BoxUserControl)e.Source).BoxInfo.OriginalValue == Clicks;
+        //        Guesses.Add(value);
+        //        if(Clicks == Level) 
+        //        {
+        //            var result = Guesses.Any(r => r == false);
+        //            GameOver(result);
 
-    //        }
-    //        Clicks++;
-    //    }
+        //        }
+        //        Clicks++;
+        //    }
 
     }
 }

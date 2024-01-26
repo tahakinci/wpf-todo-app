@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using MemoryGame.Domain;
-using MemoryGame.Model;
-using MemoryGame.ViewModel.Commands;
+using MemoryGame;
 using System.ComponentModel;
 using System.Windows.Input;
 
@@ -10,17 +9,18 @@ namespace MemoryGame.ViewModel
     public class SetupPageViewModel 
     {
         public GameManager GameManager { get; set; }
-
-        //public ICommand StartCommand { get; set; }
+        public int DelayTime { get; set; }
+        public ICommand StartCommand { get; set; }
         public SetupPageViewModel()
         {
-            Difficulty = 2000;
+            Difficulty = "Medium";
             Level = 1;
-            //StartCommand = new RelayCommand(ExecuteStartCommand);
+            GameManager = new GameManager();
+            StartCommand = new RelayCommand(ExecuteStartCommand);
         }
-        private int diffuculty;
+        private string diffuculty;
 
-        public int Difficulty
+        public string Difficulty
         {
             get { return diffuculty; }
             set
@@ -41,10 +41,16 @@ namespace MemoryGame.ViewModel
             }
         }
 
-        //public void ExecuteStartCommand ()
-        //{
-        //    var gameManager = new 
-        //}
+        public void ExecuteStartCommand()
+        {
+
+            if (Difficulty == "Easy") DelayTime = 3000;
+            else if (Difficulty == "Medium") DelayTime = 2000;
+            else if (Difficulty == "Hard") DelayTime = 1000;
+            GameManager.StartRound(Level, DelayTime);
+            new MainPageViewModel(GameManager);
+            new MainWindow(GameManager).Show();
+        }
         public event EventHandler? CanExecuteChanged;
         public event PropertyChangedEventHandler? PropertyChanged;
 

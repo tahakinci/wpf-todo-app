@@ -32,8 +32,8 @@ namespace MemoryGame.Domain
             // her tur başında cevap listesi silinir
             AnswerList.Clear();
             BoxManager = new BoxManager();
-            BoxManager.SetBoxes(Game.Level);
-            await Task.Delay(Game.Difficulty);
+            BoxManager.SetBoxes(Level);
+            await Task.Delay(Difficulty);
             IsBoxVisible = false;
         }
 
@@ -55,17 +55,17 @@ namespace MemoryGame.Domain
             
         }
 
-        public void PlayerAction()
+        public void PlayerAction(int value)
         {
              Clicks++;
             if(Clicks < BoxManager.BoxList.Count)
             {
-                bool IsClickedRigthBox = BoxManager.BoxList[Clicks - 1].InitialValue == Clicks;
+                bool IsClickedRigthBox = value == Clicks;
                 AnswerList.Add(IsClickedRigthBox);
             }
-            else
+            else if(Clicks == BoxManager.BoxList.Count)
             {
-                bool IsClickedRigthBox = BoxManager.BoxList[Clicks - 1].InitialValue == Clicks;
+                bool IsClickedRigthBox = value == Clicks;
                 AnswerList.Add(IsClickedRigthBox);
                 var IsCorrect = CheckResult(AnswerList);
                 if(IsCorrect)

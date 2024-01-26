@@ -24,7 +24,7 @@ namespace MemoryGameDomainTests
             {
                 gameManager.PlayerAction();
             }
-            gameManager.CheckResult(gameManager.AnswerList);
+            gameManager.CheckResult(gameManager.AnswerList).ShouldBeTrue();
         }
 
         //public void MustFailWhenPlayerClickWrongOrder()

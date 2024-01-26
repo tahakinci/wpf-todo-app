@@ -16,4 +16,8 @@
     <ProjectReference Include="..\MemoryGame.Domain\MemoryGame.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModel\Commands\" />
+  </ItemGroup>
+
 </Project>
